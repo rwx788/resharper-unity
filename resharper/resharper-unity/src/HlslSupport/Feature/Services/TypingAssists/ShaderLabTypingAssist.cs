@@ -84,7 +84,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.HlslSupport.Feature.Services.TypingA
       //   IsCorrectCommonTyposAvailable);
       
       typingAssistManager.AddActionHandler(lifetime, TextControlActions.ActionIds.Backspace, this,
-        c => WrapAction(c, deleteHandler.HandleBackspacePressed), IsActionHandlerAvailable);
+        c => WrapAction(c, deleteHandler.HandleBackspacePressed, WrapBackspaceAction), IsActionHandlerAvailable);
       typingAssistManager.AddActionHandler(lifetime, TextControlActions.ActionIds.Enter, this,
         c => WrapAction(c, braceHandler.HandleEnterTyped, WrapEnterAction), IsActionHandlerAvailable);
       typingAssistManager.AddActionHandler(lifetime, TextControlActions.ActionIds.Tab, this, HandleTabPressed,
@@ -175,6 +175,16 @@ namespace JetBrains.ReSharper.Plugins.Unity.HlslSupport.Feature.Services.TypingA
       return true;
     }
 
+    private bool WrapBackspaceAction(IActionContext actionContext, CachingLexer cachingLexer)
+    {
+        // HLSL could not be affected by smart backspace action, performance optimization
+        using (new ShaderLabDoNotFormatHlslCookie())
+        {
+            if (HandleUnindentOnBackspace(actionContext)) return true;
+        }
+        return false;
+    }
+    
 
     private bool WrapAction(IActionContext actionContext, Func<IActionContext, bool> cppAction, Func<IActionContext, CachingLexer, bool> shaderLabAction = null)
     { 
@@ -208,5 +218,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.HlslSupport.Feature.Services.TypingA
     {
       return myShaderLabDummyFormatter.ComposeKeywordResolvingLexer(textControl);
     }
+
+    protected override IndentTypingHelper<ShaderLabLanguage> GetIndentTypingHelper() => new ShaderLabIndentTypingHelper(this);
   }
 }
