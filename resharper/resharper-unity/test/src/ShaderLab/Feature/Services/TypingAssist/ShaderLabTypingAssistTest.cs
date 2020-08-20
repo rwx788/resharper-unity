@@ -24,6 +24,14 @@ namespace JetBrains.ReSharper.Plugins.Unity.Tests.ShaderLab.Feature.Services.Typ
         [Test] public void SmartEnterCpp01() { DoNamedTest(); }
         [Test] public void SmartEnterCpp02() { DoNamedTest(); }
         [Test] public void SmartEnterCpp03() { DoNamedTest(); }
+        [Test] public void SmartBackspace01() { DoNamedTest(); }
+        [Test] public void SmartBackspace02() { DoNamedTest(); }
+        [Test] public void SmartBackspace03() { DoNamedTest(); }
+        
+        
+        // There is no smart backspace in C++ now, that test should fail when cpp team will implement it
+        // we should check how injects are affected
+        [Test] public void SmartBackspaceCppIsNotWorking() { DoNamedTest(); }
 
         protected override void DoTest(Lifetime lifetime)
         {
