@@ -76,7 +76,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.ShaderLab.Psi.Formatting
           var file = formatTask.FirstElement.GetContainingFile();
           if (file != null)
           {
-            if (ShaderLabDoNotFormatHlslCookie.IsHlslFormatterSuppressed)
+            if (ShaderLabDoNotFormatInjectionsCookie.IsInjectionFormatterSuppressed)
               return;
               
             using (new SuspendInjectRegenerationCookie())
