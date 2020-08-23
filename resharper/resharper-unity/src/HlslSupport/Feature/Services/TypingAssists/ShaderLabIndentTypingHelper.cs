@@ -13,7 +13,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.HlslSupport.Feature.Services.TypingA
         {
         }
 
-        // smart backspaces expecteed that GetExtraStub return not null value, "foo " is typical valu
+        // smart backspaces expecteed that GetExtraStub return not null value, "foo " is typical value
         protected override string GetExtraStub(CachingLexer lexer, int offset)
         {
             using (LexerStateCookie.Create(lexer))
