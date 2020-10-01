@@ -133,6 +133,8 @@
     <projectService serviceImplementation="com.jetbrains.rider.UnityProjectDiscoverer"/>
 
     <diff.merge.external.AutomaticExternalMergeTool implementation="com.jetbrains.rider.plugins.unity.diff.UnityYamlAutomaticExternalMergeTool"/>
+
+    <projectViewNestingRulesProvider implementation="com.jetbrains.rider.plugins.unity.MetaFileNestingRulesProvider"/>
   </extensions>
 
   <projectListeners>
