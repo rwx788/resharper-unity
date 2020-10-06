@@ -26,9 +26,19 @@
     <ILRepackInputAssemblies Include="$(OutputPath)JetBrains.RdFramework.dll"><Visible>false</Visible></ILRepackInputAssemblies>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="AssetPostprocessors\CsprojAssetPostprocessor.cs" />
-    <Compile Remove="AssetPostprocessors\SlnAssetPostprocessor.cs" />
-    <Compile Remove="RiderMenu.cs" />
+    <Compile Remove="Assets\Editor\AssetPostprocessors\CsprojAssetPostprocessor.cs" />
+    <Compile Remove="Assets\Editor\AssetPostprocessors\SlnAssetPostprocessor.cs" />
+    <Compile Remove="Assets\Editor\Core\RiderMenu.cs" />
+    <Compile Remove="Library\**" />
+    <None Remove="Library\**" />
+    <Compile Remove="Packages\**" />
+    <None Remove="Packages\**" />
+    <Compile Remove="ProjectSettings\**" />
+    <None Remove="ProjectSettings\**" />
+    <Compile Remove="Temp\**" />
+    <None Remove="Temp\**" />
+    <Compile Remove="Logs\**" />
+    <None Remove="Logs\**" />
   </ItemGroup>
   <Import Project="$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props" Condition="Exists('$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\EditorPlugin\ILRepack.targets" />

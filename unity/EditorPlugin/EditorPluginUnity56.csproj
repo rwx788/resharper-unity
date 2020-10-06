@@ -23,7 +23,17 @@
     <ILRepackInputAssemblies Include="$(OutputPath)System.Threading.dll"><Visible>false</Visible></ILRepackInputAssemblies>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="AfterUnity56\UnitTesting\CompiledAssembliesTracker.cs" />
+    <Compile Remove="Assets\Editor\AfterUnity56\UnitTesting\CompiledAssembliesTracker.cs" />
+    <Compile Remove="Library\**" />
+    <None Remove="Library\**" />
+    <Compile Remove="Packages\**" />
+    <None Remove="Packages\**" />
+    <Compile Remove="ProjectSettings\**" />
+    <None Remove="ProjectSettings\**" />
+    <Compile Remove="Temp\**" />
+    <None Remove="Temp\**" />
+    <Compile Remove="Logs\**" />
+    <None Remove="Logs\**" />
   </ItemGroup>
     <Import Project="$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props" Condition="Exists('$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props')" />
     <Import Project="$(MSBuildProjectDirectory)\..\EditorPlugin\ILRepack.targets" />

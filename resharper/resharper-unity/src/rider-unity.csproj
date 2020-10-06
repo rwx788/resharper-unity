@@ -17,7 +17,7 @@
     <DefineConstants>TRACE;RIDER;$(CommandLineConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup Label="C#">
-    <Compile Include="..\..\..\unity\EditorPlugin\NonUnity\ProtocolCompatibility.cs">
+    <Compile Include="..\..\..\unity\EditorPlugin\Assets\Editor\NonUnity\ProtocolCompatibility.cs">
       <Link>Rider\Protocol\ProtocolCompatibility.cs</Link>
     </Compile>
     <ErrorsGen Include="CSharp\Daemon\Errors\CSharpErrors.xml">

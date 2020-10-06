@@ -26,4 +26,5 @@
   <!-- Import version number -->
   <Import Project="..\Packaging.props" />
   <Import Project="$(MSBuildThisFileDirectory)..\resharper\build\generated\DotNetSdkPath.generated.props" Condition="Exists('$(MSBuildThisFileDirectory)..\resharper\build\generated\DotNetSdkPath.generated.props')" />
+  <Import Project="$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props" Condition="Exists('$(DotNetSdkPath)\Build\PackageReference.JetBrains.RdFramework.Props')" />
 </Project>
