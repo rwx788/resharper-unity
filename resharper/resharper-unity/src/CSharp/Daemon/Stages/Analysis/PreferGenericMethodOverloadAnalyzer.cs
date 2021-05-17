@@ -2,6 +2,7 @@
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Psi.Resolve;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.CSharp.Util;
@@ -15,8 +16,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         new[] {typeof(PreferGenericMethodOverloadWarning)})]
     public class PreferGenericMethodOverloadAnalyzer : UnityElementProblemAnalyzer<IInvocationExpression>
     {
-        public PreferGenericMethodOverloadAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public PreferGenericMethodOverloadAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

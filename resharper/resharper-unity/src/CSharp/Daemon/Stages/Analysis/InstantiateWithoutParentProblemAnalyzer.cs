@@ -5,6 +5,7 @@ using JetBrains.Diagnostics;
 using JetBrains.ReSharper.Daemon.CSharp.Stages;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.Utils;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -21,8 +22,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         private static readonly string ourKnownMethod = "Instantiate";
         private static readonly QualifierEqualityComparer ourComparer = new QualifierEqualityComparer();
 
-        public InstantiateWithoutParentProblemAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public InstantiateWithoutParentProblemAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

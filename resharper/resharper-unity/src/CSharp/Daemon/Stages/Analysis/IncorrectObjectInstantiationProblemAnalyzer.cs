@@ -1,5 +1,6 @@
 ﻿using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Util;
 
@@ -13,8 +14,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         })]
     public class IncorrectObjectInstantiationProblemAnalyzer : UnityElementProblemAnalyzer<IObjectCreationExpression>
     {
-        public IncorrectObjectInstantiationProblemAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public IncorrectObjectInstantiationProblemAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

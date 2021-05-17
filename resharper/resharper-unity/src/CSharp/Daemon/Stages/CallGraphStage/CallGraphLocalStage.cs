@@ -3,6 +3,7 @@ using JetBrains.ReSharper.Daemon.CSharp.CallGraph;
 using JetBrains.ReSharper.Daemon.CSharp.Stages;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.ContextSystem;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.Util;
 
 namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.CallGraphStage
@@ -13,9 +14,10 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.CallGraphStage
         public CallGraphLocalStage(
             CallGraphSwaExtensionProvider swaExtensionProvider,
             IEnumerable<ICallGraphContextProvider> contextProviders, 
-            IEnumerable<ICallGraphProblemAnalyzer> problemAnalyzers, 
+            IEnumerable<ICallGraphProblemAnalyzer> problemAnalyzers,
+            UnityReferencesTracker tracker,
             ILogger logger)
-            : base(swaExtensionProvider, contextProviders, problemAnalyzers, logger)
+            : base(swaExtensionProvider, contextProviders, problemAnalyzers, tracker, logger)
         {
         }
     }

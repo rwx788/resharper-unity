@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -43,8 +44,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
                 {KnownTypes.PostProcessSceneAttribute, AttributeTargets.Method},
             };
 
-        public RedundantAttributeOnTargetProblemAnalyzer([NotNull] UnityApi unityApi)
-            : base(unityApi)
+        public RedundantAttributeOnTargetProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

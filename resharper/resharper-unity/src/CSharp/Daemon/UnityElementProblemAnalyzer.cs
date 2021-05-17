@@ -8,8 +8,11 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon
     public abstract class UnityElementProblemAnalyzer<T> : ElementProblemAnalyzer<T>
         where T : ITreeNode
     {
-        protected UnityElementProblemAnalyzer([NotNull] UnityApi unityApi)
+        private readonly UnityReferencesTracker myUnityReferencesTracker;
+
+        protected UnityElementProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker unityReferencesTracker)
         {
+            myUnityReferencesTracker = unityReferencesTracker;
             Api = unityApi;
         }
 
@@ -24,7 +27,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon
             if (processKind == DaemonProcessKind.GLOBAL_WARNINGS)
                 return;
 
-            if (!element.GetProject().IsUnityProject())
+            if (!myUnityReferencesTracker.IsUnityProject(element.GetProject()))
                 return;
 
             Analyze(element, data, consumer);

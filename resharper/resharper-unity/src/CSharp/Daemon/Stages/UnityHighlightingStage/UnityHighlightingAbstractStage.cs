@@ -21,15 +21,17 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.UnityHighlighti
     {
         protected readonly IEnumerable<IUnityDeclarationHighlightingProvider> HighlightingProviders;
         protected readonly UnityApi API;
+        private readonly UnityReferencesTracker myTracker;
         protected readonly UnityCommonIconProvider CommonIconProvider;
 
         protected UnityHighlightingAbstractStage(
             IEnumerable<IUnityDeclarationHighlightingProvider> highlightingProviders,
-            UnityApi api,
+            UnityApi api, UnityReferencesTracker tracker,
             UnityCommonIconProvider commonIconProvider)
         {
             HighlightingProviders = highlightingProviders;
             API = api;
+            myTracker = tracker;
             CommonIconProvider = commonIconProvider;
         }
 
@@ -37,7 +39,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.UnityHighlighti
             IContextBoundSettingsStore settings,
             DaemonProcessKind processKind, ICSharpFile file)
         {
-            if (!file.GetProject().IsUnityProject())
+            if (!myTracker.IsUnityProject(file.GetProject()))
                 return null;
 
             return new UnityHighlightingProcess(process, file, HighlightingProviders, API,

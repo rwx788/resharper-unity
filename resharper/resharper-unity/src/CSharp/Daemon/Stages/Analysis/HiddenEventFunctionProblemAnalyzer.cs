@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Highlightings;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -13,8 +14,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         HighlightingTypes = new[] {typeof(UnityEventFunctionInheritanceMarkOnGutter)})]
     public class HiddenEventFunctionProblemAnalyzer : UnityElementProblemAnalyzer<IMethodDeclaration>
     {
-        public HiddenEventFunctionProblemAnalyzer([NotNull] UnityApi unityApi)
-            : base(unityApi)
+        public HiddenEventFunctionProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

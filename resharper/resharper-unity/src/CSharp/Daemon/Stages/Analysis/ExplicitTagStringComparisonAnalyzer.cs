@@ -1,6 +1,7 @@
 ﻿using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.Yaml;
 using JetBrains.ReSharper.Plugins.Unity.Yaml.Psi.Caches;
 using JetBrains.ReSharper.Psi;
@@ -15,8 +16,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
     {
         private readonly AssetSerializationMode myAssetSerializationMode;
 
-        public ExplicitTagStringComparisonAnalyzer(UnityApi unityApi, AssetSerializationMode assetSerializationMode)
-            : base(unityApi)
+        public ExplicitTagStringComparisonAnalyzer(UnityApi unityApi, AssetSerializationMode assetSerializationMode, UnityReferencesTracker referencesTracker)
+            : base(unityApi, referencesTracker)
         {
             myAssetSerializationMode = assetSerializationMode;
         }

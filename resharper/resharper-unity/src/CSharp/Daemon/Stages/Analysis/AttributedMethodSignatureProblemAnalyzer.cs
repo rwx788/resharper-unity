@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.Util.dataStructures;
@@ -47,8 +48,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         private readonly ConcurrentDictionary<IClrTypeName, MethodSignature[]> myMethodSignatures;
 
         public AttributedMethodSignatureProblemAnalyzer(UnityApi unityApi, IPredefinedTypeCache predefinedTypeCache,
-                                                        KnownTypesCache knownTypesCache)
-            : base(unityApi)
+                                                        KnownTypesCache knownTypesCache, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
             myPredefinedTypeCache = predefinedTypeCache;
             myKnownTypesCache = knownTypesCache;

@@ -183,8 +183,14 @@ namespace JetBrains.ReSharper.Plugins.Unity.ProjectModel
             return null;
         }
 
-        public bool IsUnityProject(IProject project)
+        public bool IsUnityProject([CanBeNull] IProject project)
         {
+            if (project == null || !project.IsValid())
+                return false;
+            // Only VSTU adds the Unity project flavour. Unity + Rider don't, so we have to look at references
+            if (project.HasUnityFlavour())
+                return true;
+            
             return myUnityProjects.Contains(project);
         }
 

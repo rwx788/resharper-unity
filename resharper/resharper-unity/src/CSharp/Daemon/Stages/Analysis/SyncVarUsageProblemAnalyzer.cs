@@ -1,5 +1,6 @@
 ﻿using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
@@ -8,8 +9,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
     [ElementProblemAnalyzer(typeof(IAttribute), HighlightingTypes = new[] { typeof(SyncVarUsageError) })]
     public class SyncVarUsageProblemAnalyzer : UnityElementProblemAnalyzer<IAttribute>
     {
-        public SyncVarUsageProblemAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public SyncVarUsageProblemAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

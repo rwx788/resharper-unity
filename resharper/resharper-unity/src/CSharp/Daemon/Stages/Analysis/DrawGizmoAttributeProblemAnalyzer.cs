@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Util;
@@ -20,8 +21,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         private readonly KnownTypesCache myKnownTypesCache;
 
         public DrawGizmoAttributeProblemAnalyzer([NotNull] UnityApi unityApi, IPredefinedTypeCache predefinedTypeCache,
-                                                 KnownTypesCache knownTypesCache)
-            : base(unityApi)
+                                                 KnownTypesCache knownTypesCache, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
             myPredefinedTypeCache = predefinedTypeCache;
             myKnownTypesCache = knownTypesCache;

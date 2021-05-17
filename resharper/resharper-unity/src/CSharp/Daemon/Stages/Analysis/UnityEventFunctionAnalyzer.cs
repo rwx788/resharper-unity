@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Collections;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -28,8 +29,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         public static readonly Key<ISet<IMethod>> UnityEventFunctionNodeKey = new Key<ISet<IMethod>>("UnityEventFunctionNodeKey");
         private readonly object mySyncObject = new object();
 
-        public UnityEventFunctionAnalyzer(UnityApi unityApi, KnownTypesCache knownTypesCache)
-            : base(unityApi)
+        public UnityEventFunctionAnalyzer(UnityApi unityApi, KnownTypesCache knownTypesCache, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
             myKnownTypesCache = knownTypesCache;
         }

@@ -5,6 +5,7 @@ using JetBrains.Collections;
 using JetBrains.Diagnostics;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.Utils;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -31,8 +32,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         // pass them to quick fix) when encounter branches in control flow graph.
         // e.g : invalidate before if, after else branch, after then branch, before loop, after loop section and so on.
         
-        public ComponentPropertyAccessProblemAnalyzer([NotNull] UnityApi unityApi)
-            : base(unityApi)
+        public ComponentPropertyAccessProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
         

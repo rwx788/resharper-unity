@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.ProjectModel.Properties.Flavours;
@@ -19,8 +20,10 @@ namespace JetBrains.ReSharper.Plugins.Unity.ProjectModel
         /// <summary>
         ///  Checks that specific project unity reference or specific unity guid
         /// </summary>
+        [Obsolete("Inject UnityReferenceTracker or UnityAPI and use IsUnityProject from that components")]
         public static bool IsUnityProject([CanBeNull] this IProject project)
         {
+            // optimization before getting component
             if (project == null || !project.IsValid())
                 return false;
             // Only VSTU adds the Unity project flavour. Unity + Rider don't, so we have to look at references

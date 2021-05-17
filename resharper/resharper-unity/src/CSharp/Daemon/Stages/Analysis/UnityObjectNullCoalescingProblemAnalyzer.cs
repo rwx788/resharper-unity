@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Util;
@@ -10,8 +11,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
     [ElementProblemAnalyzer(typeof(INullCoalescingExpression), HighlightingTypes = new[] { typeof(UnityObjectNullCoalescingWarning) })]
     public class UnityObjectNullCoalescingProblemAnalyzer : UnityElementProblemAnalyzer<INullCoalescingExpression>
     {
-        public UnityObjectNullCoalescingProblemAnalyzer([NotNull] UnityApi unityApi)
-            : base(unityApi)
+        public UnityObjectNullCoalescingProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

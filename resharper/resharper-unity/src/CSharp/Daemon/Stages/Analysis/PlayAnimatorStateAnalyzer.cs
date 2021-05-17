@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.Yaml;
 using JetBrains.ReSharper.Plugins.Unity.Yaml.Psi.DeferredCaches.AnimatorUsages;
 using JetBrains.ReSharper.Plugins.Yaml.Settings;
@@ -19,8 +20,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
 
         public PlayAnimatorStateAnalyzer([NotNull] UnityApi unityApi,
                                          [NotNull] AssetSerializationMode assetSerializationMode,
-                                         [NotNull] YamlSupport unityYamlSupport)
-            : base(unityApi)
+                                         [NotNull] YamlSupport unityYamlSupport, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
             myAssetSerializationMode = assetSerializationMode;
             myUnityYamlSupport = unityYamlSupport;

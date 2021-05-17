@@ -18,19 +18,21 @@ namespace JetBrains.ReSharper.Plugins.Unity.VisualStudio.ProjectModel
         private readonly IShellLocks myLocks;
         private readonly UnityVersion myUnityVersion;
         private readonly UnityApi myUnityApi;
+        private readonly UnityReferencesTracker myUnityReferencesTracker;
 
-        public VsUnityVersionPropertiesExtenderProvider(Lifetime lifetime, IShellLocks locks, UnityVersion unityVersion, UnityApi unityApi)
+        public VsUnityVersionPropertiesExtenderProvider(Lifetime lifetime, IShellLocks locks, UnityVersion unityVersion, UnityApi unityApi, UnityReferencesTracker unityReferencesTracker)
         {
             myLifetime = lifetime;
             myLocks = locks;
             myUnityVersion = unityVersion;
             myUnityApi = unityApi;
+            myUnityReferencesTracker = unityReferencesTracker;
         }
 
         public bool CanExtend(IProjectItem projectItem, PropertiesLocation location)
         {
             var project = projectItem as IProject;
-            return project != null && project.IsUnityProject();
+            return project != null && myUnityReferencesTracker.IsUnityProject(project);
         }
 
         public IEnumerable<PropertyDescriptor> GetPropertyDescriptors(IProjectItem projectItem)

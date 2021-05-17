@@ -3,6 +3,7 @@ using JetBrains.Diagnostics;
 using JetBrains.ReSharper.Daemon.CSharp.Stages;
 using JetBrains.ReSharper.Daemon.UsageChecking;
 using JetBrains.ReSharper.Feature.Services.Daemon;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.CSharp.Util;
@@ -15,8 +16,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         HighlightingTypes = new[] { typeof(SuspiciousComparisonWarning) })]
     public class UnityObjectEqualityProblemAnalyzer : UnityElementProblemAnalyzer<IEqualityExpression>
     {
-        public UnityObjectEqualityProblemAnalyzer([NotNull] UnityApi unityApi)
-            : base(unityApi)
+        public UnityObjectEqualityProblemAnalyzer([NotNull] UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

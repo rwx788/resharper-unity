@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -15,8 +16,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         })]
     public class FormerlySerializedAsAttributeProblemAnalyzer : UnityElementProblemAnalyzer<IAttribute>
     {
-        public FormerlySerializedAsAttributeProblemAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public FormerlySerializedAsAttributeProblemAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 

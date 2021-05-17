@@ -1,5 +1,6 @@
 ﻿using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Errors;
+using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
@@ -9,8 +10,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.CSharp.Daemon.Stages.Analysis
         HighlightingTypes = new[] { typeof(RedundantInitializeOnLoadAttributeWarning) })]
     public class RedundantInitializeOnLoadAttributeProblemAnalyzer : UnityElementProblemAnalyzer<IAttribute>
     {
-        public RedundantInitializeOnLoadAttributeProblemAnalyzer(UnityApi unityApi)
-            : base(unityApi)
+        public RedundantInitializeOnLoadAttributeProblemAnalyzer(UnityApi unityApi, UnityReferencesTracker tracker)
+            : base(unityApi, tracker)
         {
         }
 
