@@ -4,6 +4,7 @@ import base.integrationTests.*
 import com.intellij.xdebugger.XDebuggerManager
 import com.intellij.xdebugger.breakpoints.XBreakpointProperties
 import com.intellij.xdebugger.breakpoints.XLineBreakpoint
+import com.jetbrains.rider.debugger.breakpoint.DotNetExceptionBreakpointProperties
 import com.jetbrains.rider.debugger.breakpoint.DotNetLineBreakpointProperties
 import com.jetbrains.rider.plugins.unity.debugger.breakpoints.UnityPausepointBreakpointType
 import com.jetbrains.rider.plugins.unity.debugger.breakpoints.convertToLineBreakpoint
@@ -62,7 +63,9 @@ abstract class DebuggerTestBase : IntegrationTestWithEditorBase() {
     fun checkExceptionBreakpointWithJustMyCode() {
         attachDebuggerToUnityEditorAndPlay(
             {
-                toggleExceptionBreakpoint("System.Exception").justMyCode = true
+                toggleExceptionBreakpoint(DotNetExceptionBreakpointProperties.DEFAULT_EXCEPTION_NAME).apply {
+                    justMyCode = true
+                }
             },
             {
                 waitForPause()
