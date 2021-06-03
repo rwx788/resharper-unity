@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.createNestedDisposable
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.vfs.newvfs.impl.VfsRootAccess
+import com.intellij.util.SystemProperties
 import com.intellij.util.io.exists
 import com.intellij.util.text.VersionComparatorUtil
 import com.intellij.xdebugger.XDebuggerManager
@@ -108,6 +109,7 @@ fun allowUnityPathVfsRootAccess(lifetimeDefinition: LifetimeDefinition) {
     val unityPath = when {
         SystemInfo.isWindows -> "C:/Program Files/Unity"
         SystemInfo.isMac -> "/Applications/Unity"
+        SystemInfo.isLinux -> Paths.get(SystemProperties.getUserHome()).resolve("~/Unity/Hub/Editor").toString()
         else -> throw Exception("Not implemented")
     }
     VfsRootAccess.allowRootAccess(lifetimeDefinition.createNestedDisposable("Unity path disposable"), unityPath)
@@ -134,6 +136,7 @@ fun startUnity(project: Project, logPath: File, withCoverage: Boolean, resetEdit
     val relPath = when {
         SystemInfo.isWindows -> "net472/rider-dev.app/rider-dev.bat"
         SystemInfo.isMac -> "net472/rider-dev.app"
+        SystemInfo.isLinux -> "net472/rider-dev.app"
         else -> throw Exception("Not implemented")
     }
     val cwd = File(System.getProperty("user.dir"))
