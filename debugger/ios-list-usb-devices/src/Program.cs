@@ -2,17 +2,14 @@
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Core;
-using JetBrains.Lifetimes;
-using JetBrains.Threading;
 
 namespace JetBrains.Rider.Plugins.Unity.iOS.ListUsbDevices
 {
     internal static class Program
     {
-        private static Lifetime GetProcessLifetime()
+        private static CancellationToken GetProcessLifetime()
         {
-            var lifetimeDefinition = Lifetime.Eternal.CreateNested();
+            var cancellationToken = new CancellationTokenSource();
             Task.Run(() =>
             {
                 while (true)
@@ -20,13 +17,13 @@ namespace JetBrains.Rider.Plugins.Unity.iOS.ListUsbDevices
                     var line = Console.ReadLine();
                     if (line?.Equals("stop", StringComparison.OrdinalIgnoreCase) == true)
                     {
-                        lifetimeDefinition.Terminate();
+                        cancellationToken.Cancel();
                         return;
                     }
                 }
             });
 
-            return lifetimeDefinition.Lifetime;
+            return cancellationToken.Token;
         }
         
         private static async Task<int> Main(string[] args)
@@ -46,7 +43,7 @@ namespace JetBrains.Rider.Plugins.Unity.iOS.ListUsbDevices
             try
             {
                 using var api = new ListDevices(iosSupportPath);
-                while (lifetime.IsAlive)
+                while (!lifetime.IsCancellationRequested)
                 {
                     var devices = api.GetDevices();
 
@@ -91,6 +88,34 @@ namespace JetBrains.Rider.Plugins.Unity.iOS.ListUsbDevices
             {
                 Console.WriteLine("Failed to create socket (force initialising WinSock on Windows)");
                 Console.WriteLine(e);
+            }
+        }
+        
+        public static bool IsOperationCanceled(this Exception exception)
+        {
+            switch (exception)
+            {
+                case null:
+                    return false;
+                case OperationCanceledException _:
+                    return true;
+                case AggregateException aggregate when aggregate.InnerExceptions.Count == 0:
+                    return false;
+                case AggregateException aggregate:
+                {
+                    // ReSharper disable once LoopCanBeConvertedToQuery
+                    foreach(var inner in aggregate.InnerExceptions)
+                    {
+                        if (!inner.IsOperationCanceled())
+                            return false;
+                    }
+
+                    //all inner exceptions are OCE
+                    return true;
+                }
+                 
+                default:
+                    return exception.InnerException.IsOperationCanceled();
             }
         }
     }
