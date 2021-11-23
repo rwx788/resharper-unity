@@ -13,7 +13,7 @@ using JetBrains.Diagnostics;
 using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.Impl;
-using JetBrains.ReSharper.Plugins.Unity.Core.Feature.Services.UsageStatistics;
+using JetBrains.ReSharper.Plugins.Unity.Core.Feature.Services.Fus;
 using JetBrains.ReSharper.Plugins.Unity.Packages;
 using JetBrains.ReSharper.Plugins.Unity.ProjectModel;
 using JetBrains.ReSharper.Plugins.Unity.Utils;
@@ -40,7 +40,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
         private readonly UnityExternalPsiSourceFileFactory myPsiSourceFileFactory;
         private readonly UnityExternalFilesModuleFactory myModuleFactory;
         private readonly UnityExternalFilesIndexDisablingStrategy myIndexDisablingStrategy;
-        private readonly UnityExternalFilesFileSizeLogContributor myUsageStatistics;
+        private readonly UnityAssetInfoCollector myUsageStatistics;
         private readonly Dictionary<VirtualFileSystemPath, LifetimeDefinition> myRootPathLifetimes;
         private readonly VirtualFileSystemPath mySolutionDirectory;
 
@@ -53,7 +53,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
                                                  UnityExternalPsiSourceFileFactory psiSourceFileFactory,
                                                  UnityExternalFilesModuleFactory moduleFactory,
                                                  UnityExternalFilesIndexDisablingStrategy indexDisablingStrategy,
-                                                 UnityExternalFilesFileSizeLogContributor usageStatistics)
+                                                 UnityAssetInfoCollector usageStatistics)
         {
             myLifetime = lifetime;
             myLogger = logger;
@@ -78,6 +78,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
             changeManager.AddDependency(lifetime, psiModules, this);
         }
 
+
         // Called once when we know it's a Unity solution. I.e. a solution that has a Unity reference (so can be true
         // for non-generated solutions)
         public virtual void OnHasUnityReference()
@@ -98,6 +99,8 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
             UpdateStatistics(externalFiles);
             SubscribeToPackageUpdates();
             SubscribeToProjectModelUpdates();
+
+            myUsageStatistics.FinishInitialUpdate();
         }
 
         public void OnUnityProjectAdded(Lifetime projectLifetime, IProject project)
@@ -237,6 +240,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
                         CollectExternalFilesForDirectory(externalFiles, packageData.PackageFolder,
                             packageData.IsUserEditable);
                         AddExternalFiles(externalFiles);
+                        UpdateStatistics(externalFiles);
                     }
                 }
                 else
@@ -389,13 +393,13 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
         {
             foreach (var externalFile in externalFiles.AssetFiles)
             {
-                UnityExternalFilesFileSizeLogContributor.FileType? fileType = null;
+                UnityAssetInfoCollector.FileType? fileType = null;
                 if (externalFile.Path.IsAsset())
-                    fileType = UnityExternalFilesFileSizeLogContributor.FileType.Asset;
+                    fileType = UnityAssetInfoCollector.FileType.Asset;
                 else if (externalFile.Path.IsPrefab())
-                    fileType = UnityExternalFilesFileSizeLogContributor.FileType.Prefab;
+                    fileType = UnityAssetInfoCollector.FileType.Prefab;
                 else if (externalFile.Path.IsScene())
-                    fileType = UnityExternalFilesFileSizeLogContributor.FileType.Scene;
+                    fileType = UnityAssetInfoCollector.FileType.Scene;
 
                 if (fileType.HasValue)
                     myUsageStatistics.AddStatistic(fileType.Value, externalFile.Length, externalFile.IsUserEditable);
@@ -403,26 +407,22 @@ namespace JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules
 
             foreach (var externalFile in externalFiles.MetaFiles)
             {
-                myUsageStatistics.AddStatistic(UnityExternalFilesFileSizeLogContributor.FileType.Meta,
-                    externalFile.Length, externalFile.IsUserEditable);
+                myUsageStatistics.AddStatistic(UnityAssetInfoCollector.FileType.Meta, externalFile.Length, externalFile.IsUserEditable);
             }
 
             foreach (var externalFile in externalFiles.AsmDefFiles)
             {
-                myUsageStatistics.AddStatistic(UnityExternalFilesFileSizeLogContributor.FileType.AsmDef,
-                    externalFile.Length, externalFile.IsUserEditable);
+                myUsageStatistics.AddStatistic(UnityAssetInfoCollector.FileType.AsmDef, externalFile.Length, externalFile.IsUserEditable);
             }
 
             foreach (var externalFile in externalFiles.KnownBinaryAssetFiles)
             {
-                myUsageStatistics.AddStatistic(UnityExternalFilesFileSizeLogContributor.FileType.KnownBinary,
-                    externalFile.Length, externalFile.IsUserEditable);
+                myUsageStatistics.AddStatistic(UnityAssetInfoCollector.FileType.KnownBinary, externalFile.Length, externalFile.IsUserEditable);
             }
 
             foreach (var externalFile in externalFiles.ExcludedByNameAssetFiles)
             {
-                myUsageStatistics.AddStatistic(UnityExternalFilesFileSizeLogContributor.FileType.ExcludedByName,
-                    externalFile.Length, externalFile.IsUserEditable);
+                myUsageStatistics.AddStatistic(UnityAssetInfoCollector.FileType.ExcludedByName, externalFile.Length, externalFile.IsUserEditable);
             }
         }
 

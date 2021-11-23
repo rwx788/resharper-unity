@@ -3,7 +3,7 @@ using JetBrains.Application.FileSystemTracker;
 using JetBrains.Application.Threading;
 using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Plugins.Unity.Core.Feature.Services.UsageStatistics;
+using JetBrains.ReSharper.Plugins.Unity.Core.Feature.Services.Fus;
 using JetBrains.ReSharper.Plugins.Unity.Core.Psi.Modules;
 using JetBrains.ReSharper.Psi.Modules;
 using JetBrains.ReSharper.Plugins.Unity.Packages;
@@ -23,7 +23,7 @@ namespace JetBrains.ReSharper.Plugins.Unity.Tests.Yaml
                                                      UnityExternalPsiSourceFileFactory psiSourceFileFactory,
                                                      UnityExternalFilesModuleFactory moduleFactory,
                                                      UnityExternalFilesIndexDisablingStrategy indexDisablingStrategy,
-                                                     UnityExternalFilesFileSizeLogContributor usageStatistics)
+                                                     UnityAssetInfoCollector usageStatistics)
             : base(lifetime, logger, solution, changeManager, psiModules, packageManager, locks, fileSystemTracker,
                 psiSourceFileFactory, moduleFactory, indexDisablingStrategy, usageStatistics)
         {
